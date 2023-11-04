@@ -41,6 +41,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
+double tempArray[150] = {};
 
 /* USER CODE BEGIN PV */
 
@@ -50,6 +51,15 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
+double tempAverage(double tempArray[], int capacity) {
+	double sun = 0;
+	double average = 0;
+	for (int i  = 0; i < capacity; i++) {
+		sum += tempArray[i];
+	}
+	average = sum/capacity;
+	return average;
+}
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
