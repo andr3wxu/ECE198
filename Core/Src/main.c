@@ -131,14 +131,8 @@ int main(void)
   }
   isRunning = 0;
   if (tempAverage(tempArray, 150) >= 11.1 && tempAverage(tempArray, 150) <= 31.1) {
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-	  HAL_Delay(1000);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
   } else {
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-	  HAL_Delay(5000);
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
   }
   /* USER CODE END 3 */
