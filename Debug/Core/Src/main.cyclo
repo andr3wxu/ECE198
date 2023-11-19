@@ -4,4 +4,4 @@
 ../Core/Src/main.c:192:13:MX_ADC1_Init	3
 ../Core/Src/main.c:244:13:MX_USART2_UART_Init	2
 ../Core/Src/main.c:277:13:MX_GPIO_Init	1
-../Core/Src/main.c:333:6:Error_Handler	1
+../Core/Src/main.c:327:6:Error_Handler	1
