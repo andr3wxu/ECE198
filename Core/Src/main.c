@@ -45,7 +45,8 @@ ADC_HandleTypeDef hadc1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+double tempArray[30] = {};
+int isRunning = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -54,12 +55,20 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
-
+double tempAverage(double tempArray[], int capacity);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+double tempAverage(double tempArray[], int capacity) {
+	double sum = 0;
+	double average = 0;
+	for (int i  = 0; i < capacity; i++) {
+		sum += tempArray[i];
+	}
+	average = sum/capacity;
+	return average;
+}
 /* USER CODE END 0 */
 
 /**
