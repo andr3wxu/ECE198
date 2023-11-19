@@ -46,7 +46,6 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 double tempArray[30] = {};
-int isRunning = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,7 +77,24 @@ double tempAverage(double tempArray[], int capacity) {
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  void measure() {
+	  for (int i = 0; i < 30; i++) {
+		  HAL_ADC_Start(&hadc1);
+		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		  double vOut = (HAL_ADC_GetValue(&hadc1)/4095.0) * 3.3;
+		  tempArray[i] = (vOut-0.5)/(0.01); // [refer to data sheet]
+		  HAL_Delay(1000);
+	  }
+	  if (tempAverage(tempArray, 30) >= 11.1 && tempAverage(tempArray, 30) <= 31.1) {
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+		  HAL_Delay(1000);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+	  } else {
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+		  HAL_Delay(5000);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+	  }
+  }
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -110,32 +126,15 @@ int main(void)
   while (1)
   {
 	  if(!(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin))) {
-		  HAL_Delay(1000);
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+		  HAL_Delay(200);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
-		  isRunning = 1;
-		  break;
+		  measure();
 	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
-  for (int i = 0; i < 30; i++) {
-	  HAL_ADC_Start(&hadc1);
-	  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	  double vOut = (HAL_ADC_GetValue(&hadc1)/4095.0) * 3.3;
-	  tempArray[i] = (vOut-0.5)/(0.01); // [refer to data sheet]
-	  HAL_Delay(1000);
-  }
-  isRunning = 0;
-  if (tempAverage(tempArray, 30) >= 11.1 && tempAverage(tempArray, 30) <= 31.1) {
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-	  HAL_Delay(1000);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
-  } else {
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-	  HAL_Delay(5000);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
   }
   /* USER CODE END 3 */
 }
