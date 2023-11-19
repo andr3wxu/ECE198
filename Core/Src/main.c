@@ -45,7 +45,7 @@ ADC_HandleTypeDef hadc1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-double tempArray[150] = {};
+double tempArray[30] = {};
 int isRunning = 0;
 /* USER CODE END PV */
 
@@ -120,15 +120,15 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
-  for (int i = 0; i < 150; i++) {
+  for (int i = 0; i < 30; i++) {
 	  HAL_ADC_Start(&hadc1);
 	  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 	  double vOut = (HAL_ADC_GetValue(&hadc1)/4095.0) * 3.3;
 	  tempArray[i] = (vOut-0.5)/(0.01); // [refer to data sheet]
-	  HAL_Delay(2000);
+	  HAL_Delay(1000);
   }
   isRunning = 0;
-  if (tempAverage(tempArray, 150) >= 11.1 && tempAverage(tempArray, 150) <= 31.1) {
+  if (tempAverage(tempArray, 30) >= 11.1 && tempAverage(tempArray, 30) <= 31.1) {
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
 	  HAL_Delay(1000);
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
