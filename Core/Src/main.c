@@ -85,14 +85,18 @@ int main(void)
 		  tempArray[i] = (vOut-0.5)/(0.01); // [refer to data sheet]
 		  HAL_Delay(1000);
 	  }
-	  if (tempAverage(tempArray, 30) >= 11.1 && tempAverage(tempArray, 30) <= 31.1) {
+	  if (tempAverage(tempArray, 30) >= 11.1 && tempAverage(tempArray, 30) <= 33.1) {
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
 		  HAL_Delay(1000);
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
 	  } else {
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
 		  HAL_Delay(5000);
 		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
 	  }
   }
   /* USER CODE END 1 */
