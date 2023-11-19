@@ -120,8 +120,18 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
+  for (int i = 0; i < 30; i++) {
+	  HAL_ADC_Start(&hadc1);
+	  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	  double vOut = (HAL_ADC_GetValue(&hadc1)/4095.0) * 3.3;
+	  tempArray[i] = (vOut-0.5)/(0.01); // [refer to data sheet]
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+  }
   /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration
